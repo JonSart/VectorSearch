@@ -65,14 +65,14 @@ void Grid::BinarySearch()				//Technically, I don't know if this entire function
 {							//We treat the row itself as a binary search once we find it.
 	int storedY = 0;				//We're iterating through the last value in each row and comparing it to userAnswer. 
 	int operations = 0;				//Thus, we need one operation for each row (no matter how big the row is), plus the operations for the binary search in the last row. 
-														//One side effect of this is that Y rows are more computationally expensive than X rows.
-	int first = 0;										//10 Y rows with an X row size of 2000 takes 13 operations.
-	int last = sizeX - 1;								//Switched around, it could take up to ~2010 operations.
-	int mid = (first + last) / 2;						//Additionally, due to how we iterate through the Y rows, the higher the value, the more computationally expensive it becomes.
+							//Y rows are more computationally expensive than X rows (or columns)
+	int first = 0;					//10 Y rows with an X row size of 2000 takes 13 operations.
+	int last = sizeX - 1;				//Switched around, it could take up to ~2010 operations.
+	int mid = (first + last) / 2;			
 
-	for (int i = 0; i < sizeY; i++)					//Search through the Y axis to find our Y row first.
+	for (int i = 0; i < sizeY; i++)			//Search through the Y axis to find our Y row first.
 	{
-		if (grid[i][last] >= userAnswer){			//If we find the right row, store the row for later use and end the loop.
+		if (grid[i][last] >= userAnswer){	//If we find the right row, store the row for later use and end the loop.
 			storedY = i;
 			i = sizeY;						
 		}
