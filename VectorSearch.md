@@ -23,10 +23,10 @@ private:
 Grid::Grid()
 {
 	userAnswer = 0;									
-	int xCount = 0;																//Keep track of what number we're at inside the for loop.
+	int xCount = 0;						//Keep track of what number we're at inside the for loop.
 	grid.resize(sizeY, vector<int>(sizeX));
 
-	for (int i = 0; i < sizeY; i++)												//Initialize all values in the vector.
+	for (int i = 0; i < sizeY; i++)				//Initialize all values in the vector.
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
@@ -41,7 +41,7 @@ Grid::Grid()
 
 void Grid::GrabInput()
 {
-	userAnswer = -1;																	//Used to start our loop below.
+	userAnswer = -1;					//Used to start our loop below.
 
 	cout << "Enter a number to search for within the vector.\n"
 		<< "This number should be between 0 at the lowest and "
@@ -49,7 +49,7 @@ void Grid::GrabInput()
 
 	cin >> userAnswer;
 
-	while (userAnswer < 0 || userAnswer >(sizeX * sizeY - 1))							//If the user's search isn't within array size parameters, don't let him search it.
+	while (userAnswer < 0 || userAnswer >(sizeX * sizeY - 1))	//Don't allow bad input
 	{
 		cout << userAnswer << " is not within the proper range.\n"
 			<< "This number should be between 0 at the lowest and "
@@ -61,18 +61,18 @@ void Grid::GrabInput()
 	BinarySearch();
 }
 
-void Grid::BinarySearch()														//Technically, I don't know if this entire function counts as a binary search.
-{																				//We treat the row itself as a binary search once we find it.
-	int storedY = 0;															//But to find the proper row, we're iterating through the last value in each row and comparing it to userAnswer. 
-	int operations = 0;															//Thus, we need one operation for each row (no matter how big the row is), plus the operations for the binary search in the last row. 
-																				//One side effect of this is that Y rows are more computationally expensive than X rows.
-	int first = 0;																//10 Y rows with an X row size of 2000 takes 13 operations.
-	int last = sizeX - 1;														//Switched around, it could take up to ~2010 operations.
-	int mid = (first + last) / 2;												//Additionally, due to how we iterate through the Y rows, the higher the value, the more computationally expensive it becomes.
+void Grid::BinarySearch()				//Technically, I don't know if this entire function counts as a binary search.
+{							//We treat the row itself as a binary search once we find it.
+	int storedY = 0;				//We're iterating through the last value in each row and comparing it to userAnswer. 
+	int operations = 0;				//Thus, we need one operation for each row (no matter how big the row is), plus the operations for the binary search in the last row. 
+														//One side effect of this is that Y rows are more computationally expensive than X rows.
+	int first = 0;										//10 Y rows with an X row size of 2000 takes 13 operations.
+	int last = sizeX - 1;								//Switched around, it could take up to ~2010 operations.
+	int mid = (first + last) / 2;						//Additionally, due to how we iterate through the Y rows, the higher the value, the more computationally expensive it becomes.
 
-	for (int i = 0; i < sizeY; i++)												//Search through the Y axis to find our Y row first.
+	for (int i = 0; i < sizeY; i++)					//Search through the Y axis to find our Y row first.
 	{
-		if (grid[i][last] >= userAnswer){										//If we find the right row, store the row for later use and end the loop.
+		if (grid[i][last] >= userAnswer){			//If we find the right row, store the row for later use and end the loop.
 			storedY = i;
 			i = sizeY;						
 		}
@@ -89,11 +89,11 @@ void Grid::BinarySearch()														//Technically, I don't know if this entir
 				 << "\nFound location: " << grid[storedY][mid] << ".\n"
 			     << "This took: " << operations << " operations.\n";
 		}
-		if (userAnswer >= grid[storedY][mid])									//Discard results from the lower portion.
+		if (userAnswer >= grid[storedY][mid])			//Discard results from the lower portion
 			first = mid + 1;
-		if (userAnswer < grid[storedY][mid] && last == 0)						//Ensure we do not attempt to access an invalid array element. I.e., if we're on a 0, we don't want mid to equal 0 - 1. 
+		if (userAnswer < grid[storedY][mid] && last == 0)	//Ensure we do not attempt to access an invalid array element. 
 			last = mid;
-		else if (userAnswer < grid[storedY][mid])								//Discard upper results.
+		else if (userAnswer < grid[storedY][mid])		//Discard upper results.
 			last = mid - 1;
 
 		mid = (first + last) / 2;
@@ -110,5 +110,6 @@ int main()
 	Grid grid;
 
 }
+
 
 
