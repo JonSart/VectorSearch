@@ -61,15 +61,14 @@ void Grid::GrabInput()
 	BinarySearch();
 }
 
-void Grid::BinarySearch()												//Technically, I don't know if this entire function counts as a binary search.
-{																				        //We treat the row itself as a binary search once we find it.
+void Grid::BinarySearch()														//Technically, I don't know if this entire function counts as a binary search.
+{																				//We treat the row itself as a binary search once we find it.
 	int storedY = 0;															//But to find the proper row, we're iterating through the last value in each row and comparing it to userAnswer. 
-	int operations = 0;														//Thus, we need one operation for each row (no matter how big the row is)
-                                                 //Plus the operations for the binary search
-																				         //One side effect of this is that Y rows are more computationally expensive than X rows.
-	int first = 0;																  //10 Y rows with an X row size of 2000 takes 13 operations.
+	int operations = 0;															//Thus, we need one operation for each row (no matter how big the row is), plus the operations for the binary search in the last row. 
+																				//One side effect of this is that Y rows are more computationally expensive than X rows.
+	int first = 0;																//10 Y rows with an X row size of 2000 takes 13 operations.
 	int last = sizeX - 1;														//Switched around, it could take up to ~2010 operations.
-	int mid = (first + last) / 2;										//The higher the value, the more computationally expensive it becomes.
+	int mid = (first + last) / 2;												//Additionally, due to how we iterate through the Y rows, the higher the value, the more computationally expensive it becomes.
 
 	for (int i = 0; i < sizeY; i++)												//Search through the Y axis to find our Y row first.
 	{
@@ -92,7 +91,7 @@ void Grid::BinarySearch()												//Technically, I don't know if this entire 
 		}
 		if (userAnswer >= grid[storedY][mid])									//Discard results from the lower portion.
 			first = mid + 1;
-		if (userAnswer < grid[storedY][mid] && last == 0)						//Ensure we do not attempt to access an invalid array element.
+		if (userAnswer < grid[storedY][mid] && last == 0)						//Ensure we do not attempt to access an invalid array element. I.e., if we're on a 0, we don't want mid to equal 0 - 1. 
 			last = mid;
 		else if (userAnswer < grid[storedY][mid])								//Discard upper results.
 			last = mid - 1;
@@ -111,4 +110,5 @@ int main()
 	Grid grid;
 
 }
+
 
